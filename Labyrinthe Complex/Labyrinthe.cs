@@ -10,8 +10,11 @@ namespace Labyrinthe_Complex
 {
     public class Labyrinthe
     {
+        private List<Minautore> _minautore = new List<Minautore>();
+
         public int[,] labyrinthIni { get; set; }
         public int[,] labyrinthClose { get; set; }
+
 
 
         public int[,] reso { get; set; }
@@ -68,17 +71,28 @@ namespace Labyrinthe_Complex
                 ResetColor();
                 int minX = 0;
                 int minY = 0;
+                int minNumber = 0;
+            if (labyrinthClose.Length>100)
+            {
+                minNumber = 8;
+            }
+            for ( int i=0; i < minNumber; i++)
+            {
                 do
                 {
                     minX = rnd.Next(0, labyrinthClose.GetLength(0));
                     minY = rnd.Next(0, labyrinthClose.GetLength(1));
-                } while (labyrinthClose[minX, minY] == 0 || minY == 1 || minY == 2);
 
+                } while (labyrinthClose[minX, minY] == 0 || minY == 1 || minY == 2);
+           
                 SetCursorPosition(minX * 2 + leftPos, topPos + minY);
                 WriteLine("██");
+                Minautore min = new Minautore(minX, minY, labyrinthClose, leftPos, topPos);
+                _minautore.Add(min);
 
-                Minautore simple = new Minautore(minX, minY, labyrinthClose, leftPos, topPos);
-                do
+            }
+            Minautore simple = new Minautore(minX, minY, labyrinthClose, leftPos, topPos);
+            do
                 {
                     if (KeyAvailable)
                     {
@@ -143,9 +157,19 @@ namespace Labyrinthe_Complex
                         win = true;
                         simple.Stop();
                     }
-                    if (simple.PosXMin / 2 == playerX && simple.MinY == playerY && !review)
+                for (int a = 0; a < _minautore.Count; a++)
+                {
+
+
+                    if (simple.PosXMin / 2 == playerX && simple.MinY == playerY && !review ||(_minautore[a].PosXMin / 2 == playerX && _minautore[a].MinY == playerY) )
                     {
                         simple.Stop();
+                        foreach (Minautore x in _minautore)
+                        {
+                            x.Stop();
+                        }
+
+                        _minautore[a].Stop();
                         review = true;
                         Clear();
                         int damaged = rnd.Next(0, 10);
@@ -235,6 +259,7 @@ namespace Labyrinthe_Complex
                             WriteLine("Game Over");
                         }
                     }
+                }
 
                 } while (!win);
 

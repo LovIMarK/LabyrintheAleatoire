@@ -8,10 +8,12 @@ using static System.Console;
 
 namespace Labyrinthe_Complex
 {
+    
    
     public class Menu
     {
-       // private bool _difficutly;//Variable qui stoque l'état de l'option difficulté   
+        //La liste de tous les robots
+                                                           // private bool _difficutly;//Variable qui stoque l'état de l'option difficulté   
         public void StartGameSettings()
         {
             Clear();
@@ -98,16 +100,22 @@ namespace Labyrinthe_Complex
                         Clear();
                         try
                         {
-                            Write("Longeur du labyrinthe (chiffre impare plus petit que 80) : ");
+                            Write("Longeur du labyrinthe");
+                            ForegroundColor = ConsoleColor.Red;
+                            Write(" (chiffre impair plus petit que 80) : ");
+                            ResetColor();
                             userLabWidth = int.Parse(ReadLine());
-                            Write("Hauteur du labyrinthe (chiffre impare plus petit que 60) : ");
+                            Write("Hauteur du labyrinthe");
+                            ForegroundColor = ConsoleColor.Red;
+                            Write(" (chiffre impair plus petit que 58) : ");
+                            ResetColor();
                             userLabHeigth = int.Parse(ReadLine());
                         }
                         catch
                         {
                             WriteLine("Merci donner un valeure correcte ! ");
                         }
-                    } while (userLabWidth > 80 || userLabHeigth > 60 || userLabWidth%2!=1 || userLabHeigth % 2 != 1);
+                    } while (userLabWidth > 80 || userLabHeigth > 58 || userLabWidth%2!=1 || userLabHeigth % 2 != 1);
                     int[,] labyrinthIni = new int[userLabWidth, userLabHeigth]; // Tableau à 2 dimensions du labyrinthe initial
                     int[,] labyrinthClose = new int[userLabWidth, userLabHeigth]; // Tableau à 2 dimensions du labyrinthe avec un parcours aléatoirement construit
                     int[,] reso = new int[0, 0]; // Tableau à 2 dimensions du labyrinthe avec la solution du parcours le plus court
@@ -124,16 +132,22 @@ namespace Labyrinthe_Complex
                     {
                         try
                         {
-                            Write("Longeur du labyrinthe (chiffre impare plus petit que 80) : ");
+                            Write("Longeur du labyrinthe");
+                            ForegroundColor = ConsoleColor.Red;
+                            Write(" (chiffre impair plus petit que 80) : ");
+                            ResetColor();
                             userLabWidth = int.Parse(ReadLine());
-                            Write("Hauteur du labyrinthe (chiffre impare plus petit que 60) : ");
+                            Write("Hauteur du labyrinthe");
+                            ForegroundColor = ConsoleColor.Red;
+                            Write(" (chiffre impair plus petit que 58) : ");
+                            ResetColor();
                             userLabHeigth = int.Parse(ReadLine());
                         }
                         catch
                         {
                             WriteLine("Merci donner un valeure correcte ! ");
                         }
-                    } while (userLabWidth > 80 || userLabHeigth > 60 || userLabWidth % 2 != 1 || userLabHeigth % 2 != 1);
+                    } while (userLabWidth > 80 || userLabHeigth > 58 || userLabWidth % 2 != 1 || userLabHeigth % 2 != 1);
                     labyrinthIni = new int[userLabWidth, userLabHeigth]; // Tableau à 2 dimensions du labyrinthe initial
                     labyrinthClose = new int[userLabWidth, userLabHeigth]; // Tableau à 2 dimensions du labyrinthe avec un parcours aléatoirement construit
                     reso = new int[userLabWidth, userLabHeigth]; // Tableau à 2 dimensions du labyrinthe avec la solution du parcours le plus court
