@@ -11,11 +11,11 @@ namespace Labyrinthe_Complex
    
     public class Menu
     {
-        private bool _difficutly;//Variable qui stoque l'état de l'option difficulté   
+       // private bool _difficutly;//Variable qui stoque l'état de l'option difficulté   
         public void StartGameSettings()
         {
             Clear();
-           
+            SetWindowSize(80,30);
             CursorVisible = false;
             int topPos = 16;
             int startLeftPos = 4;
@@ -24,9 +24,16 @@ namespace Labyrinthe_Complex
             int userLabHeigth = 0;
             ConsoleKeyInfo keyInfo;
 
-
-            SetCursorPosition(startLeftPos, topPos - 3);
-            WriteLine("Bienvenue dans le Spicy Invador");
+            ForegroundColor = ConsoleColor.Yellow;
+            Write(@"  
+    _                _                      _           _     _            
+   | |              | |                    (_)         | |   | |           
+   | |        __ _  | |__    _   _   _ __   _   _ __   | |_  | |__     ___ 
+   | |       / _` | | '_ \  | | | | | '__| | | | '_ \  | __| | '_ \   / _ \
+   | |____  | (_| | | |_) | | |_| | | |    | | | | | | | |_  | | | | |  __/
+   |______|  \__,_| |_.__/   \__, | |_|    |_| |_| |_|  \__| |_| |_|  \___|
+                              __/ |                                        
+                             |___/           ");
 
             SetCursorPosition(1, topPos);
             ForegroundColor = ConsoleColor.Cyan;
@@ -35,13 +42,10 @@ namespace Labyrinthe_Complex
             SetCursorPosition(startLeftPos, 16);
             WriteLine("Jouer");
             SetCursorPosition(startLeftPos, 17);
-            WriteLine("Options");
-            SetCursorPosition(startLeftPos, 18);
             WriteLine("Résolution");
-            SetCursorPosition(startLeftPos, 19);
-            WriteLine("About");
-            SetCursorPosition(startLeftPos, 20);
+            SetCursorPosition(startLeftPos, 18);
             WriteLine("Exit");
+         
 
             //Déplace la flèche dans le menu du jeu
             do
@@ -53,10 +57,10 @@ namespace Labyrinthe_Complex
 
                     MoveBufferArea(1, topPos, 2, 2, 1, topPos + 1);
                     topPos++;
-                    if (topPos == 21)
+                    if (topPos == 19)
                     {
                         topPos = 16;
-                        MoveBufferArea(1, 21, 2, 2, 1, topPos);
+                        MoveBufferArea(1, 19, 2, 2, 1, topPos);
                     }
                 }
                 else if (keyInfo.Key == ConsoleKey.UpArrow)
@@ -66,7 +70,7 @@ namespace Labyrinthe_Complex
                     topPos--;
                     if (topPos == 15)
                     {
-                        topPos = 20;
+                        topPos = 18;
                         MoveBufferArea(1, 15, 2, 2, 1, topPos);
 
 
@@ -88,9 +92,10 @@ namespace Labyrinthe_Complex
             {
                 //Lance le jeu
                 case 16:
-                    Clear();
+                   
                     do
                     {
+                        Clear();
                         try
                         {
                             Write("Longeur du labyrinthe (chiffre impare plus petit que 80) : ");
@@ -102,22 +107,18 @@ namespace Labyrinthe_Complex
                         {
                             WriteLine("Merci donner un valeure correcte ! ");
                         }
-                    } while (userLabWidth > 80 && userLabHeigth > 60);
+                    } while (userLabWidth > 80 || userLabHeigth > 60 || userLabWidth%2!=1 || userLabHeigth % 2 != 1);
                     int[,] labyrinthIni = new int[userLabWidth, userLabHeigth]; // Tableau à 2 dimensions du labyrinthe initial
                     int[,] labyrinthClose = new int[userLabWidth, userLabHeigth]; // Tableau à 2 dimensions du labyrinthe avec un parcours aléatoirement construit
-                    int[,] reso = new int[userLabWidth, userLabHeigth]; // Tableau à 2 dimensions du labyrinthe avec la solution du parcours le plus court
+                    int[,] reso = new int[0, 0]; // Tableau à 2 dimensions du labyrinthe avec la solution du parcours le plus court
                     bool[,] passed = new bool[userLabWidth, userLabHeigth];
                     Labyrinthe lab = new Labyrinthe(labyrinthIni, labyrinthClose, reso, passed);
                     lab.Show();
                     lab.Play();
-
+                    StartGameSettings();
                     break;
-                //Ouvre les options
+                //Lance la résolution
                 case 17:
-                    Options();
-                    break;
-                //Ouvre le score
-                case 18:
                     Clear();
                     do
                     {
@@ -132,127 +133,129 @@ namespace Labyrinthe_Complex
                         {
                             WriteLine("Merci donner un valeure correcte ! ");
                         }
-                    } while (userLabWidth > 80 && userLabHeigth > 60);
+                    } while (userLabWidth > 80 || userLabHeigth > 60 || userLabWidth % 2 != 1 || userLabHeigth % 2 != 1);
                     labyrinthIni = new int[userLabWidth, userLabHeigth]; // Tableau à 2 dimensions du labyrinthe initial
                     labyrinthClose = new int[userLabWidth, userLabHeigth]; // Tableau à 2 dimensions du labyrinthe avec un parcours aléatoirement construit
                     reso = new int[userLabWidth, userLabHeigth]; // Tableau à 2 dimensions du labyrinthe avec la solution du parcours le plus court
-                   passed = new bool[userLabWidth, userLabHeigth];
+                    passed = new bool[0, 0];
                     Labyrinthe labRe = new Labyrinthe(labyrinthIni, labyrinthClose, reso, passed);
                     labRe.Show();
                     labRe.Reso();
                     ReadKey();
-                    break;
-                //Ouvre le à propos
-                case 19:
-                
+                    StartGameSettings();
                     break;
                 //Quitte le programme
-                case 20:
+                case 18:
                     Environment.Exit(0);
                     break;
+               
+
+              
+        
+
 
 
 
             }
 
         }
-        public void Options()
-        {
-            ConsoleKeyInfo keyInfo;
+        //public void Options()
+        //{
+        //    ConsoleKeyInfo keyInfo;
           
-            string difficulty = "";
+        //    string difficulty = "";
            
 
-            if (!_difficutly)
-            {
-                difficulty = "    Facile";
-            }
-            else if (_difficutly)
-            {
-                difficulty = " Difficile";
-            }
+        //    if (!_difficutly)
+        //    {
+        //        difficulty = "    Facile";
+        //    }
+        //    else if (_difficutly)
+        //    {
+        //        difficulty = " Difficile";
+        //    }
 
-            int topPos = 4;
-            int userChoice = 0;
-
-
-            Clear();
-
-            WriteLine("Option");
-            WriteLine("--------------------");
-            SetCursorPosition(1, topPos);
-            ForegroundColor = ConsoleColor.Cyan;
-            Write(">> ");
-            ResetColor();
-            SetCursorPosition(4, topPos );
-            WriteLine("Difficulté " + difficulty);
-            SetCursorPosition(4, topPos + 2);
-            WriteLine("Retour ");
-
-            do
-            {  //Déplace la flèche dans le menu des options
-                do
-                {
-                    keyInfo = ReadKey(true);
-
-                    if (keyInfo.Key == ConsoleKey.DownArrow )
-                    {
-
-                        MoveBufferArea(1, topPos, 2, 2, 1, topPos + 2);
-                        topPos += 2;
-                        if(topPos >6)
-                        {
-                            MoveBufferArea(1, topPos, 2, 2, 1, topPos -4);
-                            topPos -= 4;
-                        }
-
-                    }
-                    else if (keyInfo.Key == ConsoleKey.UpArrow )
-                    {
-                        MoveBufferArea(1, topPos, 2, 2, 1, topPos - 2);
-                        topPos -= 2;
-                        if(topPos<4)
-                        {
-                            MoveBufferArea(1, topPos, 2, 2, 1, topPos + 4);
-                            topPos += 4;
-                        }
-                    }
-                    else if (keyInfo.Key == ConsoleKey.Enter)
-                    {
-                        userChoice = topPos - 4;
-                    }
-
-                }
-                while (keyInfo.Key != ConsoleKey.Enter);
-
-                //Change les options de son et de difficulté 
-                switch (userChoice)
-                {
-
-                    case 0:
-                        _difficutly = !_difficutly;
-                        if (!_difficutly)
-                        {
-                            difficulty = "    Facile";
-                        }
-                        else if (_difficutly)
-                        {
-                            difficulty = " Difficile";
-                        }
-                        SetCursorPosition(4, topPos);
-                        WriteLine("Difficulté " + difficulty);
-                        break;
-                    case 2:
-                        StartGameSettings();
-                        break;
+        //    int topPos = 4;
+        //    int userChoice = 0;
 
 
+        //    Clear();
+
+        //    WriteLine("Option");
+        //    WriteLine("--------------------");
+        //    SetCursorPosition(1, topPos);
+        //    ForegroundColor = ConsoleColor.Cyan;
+        //    Write(">> ");
+        //    ResetColor();
+        //    SetCursorPosition(4, topPos );
+        //    WriteLine("Difficulté " + difficulty);
+        //    SetCursorPosition(4, topPos + 2);
+        //    WriteLine("Retour ");
+
+        //    do
+        //    {  //Déplace la flèche dans le menu des options
+        //        do
+        //        {
+        //            keyInfo = ReadKey(true);
+
+        //            if (keyInfo.Key == ConsoleKey.DownArrow )
+        //            {
+
+        //                MoveBufferArea(1, topPos, 2, 2, 1, topPos + 2);
+        //                topPos += 2;
+        //                if(topPos >6)
+        //                {
+        //                    MoveBufferArea(1, topPos, 2, 2, 1, topPos -4);
+        //                    topPos -= 4;
+        //                }
+
+        //            }
+        //            else if (keyInfo.Key == ConsoleKey.UpArrow )
+        //            {
+        //                MoveBufferArea(1, topPos, 2, 2, 1, topPos - 2);
+        //                topPos -= 2;
+        //                if(topPos<4)
+        //                {
+        //                    MoveBufferArea(1, topPos, 2, 2, 1, topPos + 4);
+        //                    topPos += 4;
+        //                }
+        //            }
+        //            else if (keyInfo.Key == ConsoleKey.Enter)
+        //            {
+        //                userChoice = topPos - 4;
+        //            }
+
+        //        }
+        //        while (keyInfo.Key != ConsoleKey.Enter);
+
+        //        //Change les options de son et de difficulté 
+        //        switch (userChoice)
+        //        {
+
+        //            case 0:
+        //                _difficutly = !_difficutly;
+        //                if (!_difficutly)
+        //                {
+        //                    difficulty = "    Facile";
+        //                }
+        //                else if (_difficutly)
+        //                {
+        //                    difficulty = " Difficile";
+        //                }
+        //                SetCursorPosition(4, topPos);
+        //                WriteLine("Difficulté " + difficulty);
+        //                break;
+        //            case 2:
+        //                StartGameSettings();
+        //                break;
 
 
-                }
-            } while (userChoice != 2);
 
-        }
+
+        //        }
+        //    } while (userChoice != 2);
+
+        //}
 
     }
         

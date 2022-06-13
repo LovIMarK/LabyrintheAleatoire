@@ -59,15 +59,6 @@ namespace Labyrinthe_Complex
 
         public void Play()
         {
-
-
-
-            
-            do
-            {
-               
-
-
                 SetCursorPosition(playerX + leftPos - 1, playerY + topPos);
                 ForegroundColor = ConsoleColor.Green;
                 WriteLine("██");
@@ -248,14 +239,6 @@ namespace Labyrinthe_Complex
                 } while (!win);
 
                 ReadKey();
-
-                
-      
-
-                
-            } while (true);
-
-
 
 
         }
