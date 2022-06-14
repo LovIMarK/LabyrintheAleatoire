@@ -54,12 +54,12 @@ namespace Labyrinthe_Complex
                 {
                     Write("Longeur du labyrinthe");
                     ForegroundColor = ConsoleColor.Red;
-                    Write(" (chiffre impair plus petit que 80) : ");
+                    Write(" (chiffre impair grand que 4 plus petit que 80) : ");
                     ResetColor();
                     userLabWidth = int.Parse(ReadLine());
                     Write("Hauteur du labyrinthe");
                     ForegroundColor = ConsoleColor.Red;
-                    Write(" (chiffre impair plus petit que 58) : ");
+                    Write(" (chiffre impair grand que 8 plus petit que 58) : ");
                     ResetColor();
                     userLabHeigth = int.Parse(ReadLine());
                 }
@@ -70,7 +70,7 @@ namespace Labyrinthe_Complex
                  
                 }
                 //Tant que les valeurs ne sont pas les bonnes
-            } while (userLabWidth > 80 || userLabHeigth > 58 || userLabWidth % 2 != 1 || userLabHeigth % 2 != 1);
+            } while (userLabWidth > 80 || userLabHeigth > 58 || userLabWidth % 2 != 1 || userLabHeigth % 2 != 1 || userLabHeigth < 8 || userLabWidth < 4);
 
             //Affiche les options
             SetCursorPosition(1, topPos);

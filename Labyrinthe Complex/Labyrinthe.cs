@@ -97,7 +97,7 @@ namespace Labyrinthe_Complex
             int minX = 0;//Position de l'axe horizontal du minotaure
             int minY = 0;//Position de l'axe vertical du minotaure
             int minNumber = 1;
-            Minotaur simple = new Minotaur(); //Instancie un minautor 
+            Minotaur simple = new Minotaur(); //Instancie un minotaur 
 
             //Dépendant de la grandeur du labyrinthe il y a plus de minotaures
             if (labyrinthClose.Length > 350)
@@ -205,6 +205,12 @@ namespace Labyrinthe_Complex
                     {
                         x.Stop();
                     }
+                    Clear();
+                    SetCursorPosition(WindowWidth / 2 - 9, WindowHeight / 2);
+                    WriteLine("Bine joué");
+                    SetCursorPosition(WindowWidth / 2 - 23, WindowHeight / 2 + 1);
+                    WriteLine("Appuyez sur une touche pour continuer");
+
                 }
                 for (int a = 0; a < _minotaur.Count; a++)
                 {
@@ -315,7 +321,7 @@ namespace Labyrinthe_Complex
                             win = true;
                             Thread.Sleep(3000);
                             SetCursorPosition(3, 29);
-                            WriteLine("Vous avez perdu contre le minautore");
+                            WriteLine("Vous avez perdu contre le minotaure");
                             Thread.Sleep(3000);
                             Clear();
                             SetCursorPosition(WindowWidth / 2-9, WindowHeight / 2);
