@@ -11,7 +11,7 @@ namespace Labyrinthe_Complex
 {
     class Minotaur
     {
-        private Timer _minMovement = new Timer(150);//Timer pour le déplacement des minotaures
+        private Timer _minMovement = new Timer(250);//Timer pour le déplacement des minotaures
         Random rnd = new Random(); // Variable qui trouve un nombre
 
         /// <summary>
@@ -67,13 +67,15 @@ namespace Labyrinthe_Complex
             //Débute le timer
             _minMovement.Start();
         }
+        public Minotaur()
+        { }
 
-        /// <summary>
-        /// Méthode qui déplace aléatoirement les minotaures dans le labyrinthe
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="e"></param>
-        public void Mouvement(object source, ElapsedEventArgs e)
+            /// <summary>
+            /// Méthode qui déplace aléatoirement les minotaures dans le labyrinthe
+            /// </summary>
+            /// <param name="source"></param>
+            /// <param name="e"></param>
+            public void Mouvement(object source, ElapsedEventArgs e)
         {
 
             //Une valeur entre 0 et 3

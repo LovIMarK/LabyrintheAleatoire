@@ -1,8 +1,10 @@
-﻿using System;
+﻿//Author            : Mark Lovink
+//Date              : 14.06.2022
+//Company           : Etml, Lausanne
+//Description       : Classe qui instancie les labyrinthes
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
 using static System.Console;
 
@@ -10,23 +12,55 @@ namespace Labyrinthe_Complex
 {
     public class Labyrinthe
     {
-        private List<Minautore> _minautore = new List<Minautore>();
+        //Liste de tout les minotaures
+        private List<Minotaur> _minotaur = new List<Minotaur>();
 
+        /// <summary>
+        /// Getter de la taille du labyrinthe
+        /// </summary>
         public int[,] labyrinthIni { get; set; }
+
+        /// <summary>
+        /// Getter de la taille du labyrinthe
+        /// </summary>
         public int[,] labyrinthClose { get; set; }
 
-
-
+        /// <summary>
+        /// Getter de la taille du labyrinthe
+        /// </summary>
         public int[,] reso { get; set; }
+
+        /// <summary>
+        /// Getter de la taille du labyrinthe
+        /// </summary>
         public bool[,] passed { get; set; }
 
+        /// <summary>
+        /// Labyrinthe pour le jeu avec les paramètres pour le jeu
+        /// </summary>
+        /// <param name="labyrinthInit">tableau du labyrinthe avec juste des murs pour fermer le labyrinthe</param>
+        /// <param name="labyrinthClosed">tableau du labyrinthe avec les murs former </param>
+        /// <param name="passed">tableau du labyrinthe avec le passage du joueur</param>
+        public Labyrinthe(int[,] labyrinthInit ,int[,] labyrinthClosed, bool[,] passed)
+        {
+            this.labyrinthIni = labyrinthInit;
+            this.labyrinthClose = labyrinthClosed;
+            this.passed = passed;
 
-        public Labyrinthe(int[,] labyrinthInit ,int[,] labyrinthClosed, int[,] resol, bool[,] passed)
+
+        }
+
+        /// <summary>
+        /// Labyrinthe pour la résolution avec les paramètres pour la résolution
+        /// </summary>
+        /// <param name="labyrinthInit">tableau du labyrinthe avec juste des murs pour fermer le labyrinthe</param>
+        /// <param name="labyrinthClosed">tableau du labyrinthe avec les murs former</param>
+        /// <param name="resol">tableau du labyrinthe avec le chemin le plus optimal pour résoudre le labyrinthe</param>
+        public Labyrinthe(int[,] labyrinthInit, int[,] labyrinthClosed, int[,] resol)
         {
             this.labyrinthIni = labyrinthInit;
             this.labyrinthClose = labyrinthClosed;
             this.reso = resol;
-            this.passed = passed;
 
 
         }
@@ -36,142 +70,158 @@ namespace Labyrinthe_Complex
         const int leftPos = 2;//Variable avec la position du départ gauche du labyrinthe
         const int topPos = 2; //Variable avec la position du départ haut du labyrinthe
 
-
-
-
-        //int[,] labyrinthIni = new int[Width, Heigth]; // Tableau à 2 dimensions du labyrinthe initial
-        //int[,] labyrinthClose = new int[Width, Heigth]; // Tableau à 2 dimensions du labyrinthe avec un parcours aléatoirement construit
-        //int[,] reso = new int[Width, Heigth]; // Tableau à 2 dimensions du labyrinthe avec la solution du parcours le plus court
-        //bool[,] passed = new bool[Width, Heigth];
-
-
-
-
         int rndNumber = 4; //Variable qui donne une valeur aux cases noirs
         int distance = 2;//Variable avec la valeur qui sépare la case de départ de celle de l'arrivée
         int wallOpened = 0;//Variable qui stocke le nombre de murs à changer
         bool dist = false; // Variable qui enregistre le changement de valeur de distance
         bool rndClosed = true;
 
-        bool review = false;
-        bool passedOn = true;
-        bool win = false;
-        int playerX = 1;
-        int playerY = 1;
+        bool passedOn = true;//Si le joueur est passé sur une case
+        bool win = false;//Si le joueur à gagné ou perdu
+        int playerX = 1;//Position du joueur 
+        int playerY = 1;//Position du joueur 
         Random rnd = new Random(); // Variable qui trouve un nombre aléatoire
 
         public void Play()
         {
-                SetCursorPosition(playerX + leftPos - 1, playerY + topPos);
-                ForegroundColor = ConsoleColor.Green;
-                WriteLine("██");
-                SetCursorPosition(playerX + leftPos + 1, playerY + topPos);
-                ForegroundColor = ConsoleColor.Green;
-                WriteLine("██");
-                ResetColor();
-                int minX = 0;
-                int minY = 0;
-                int minNumber = 0;
-            if (labyrinthClose.Length>100)
+
+            SetCursorPosition(0, WindowHeight - 3);
+            WriteLine("                                        ");
+            SetCursorPosition(playerX + leftPos - 1, playerY + topPos);
+            ForegroundColor = ConsoleColor.Green;
+            WriteLine("██");
+            SetCursorPosition(playerX + leftPos + 1, playerY + topPos);
+            ForegroundColor = ConsoleColor.Green;
+            WriteLine("██");
+            ResetColor();
+            int minX = 0;//Position de l'axe horizontal du minotaure
+            int minY = 0;//Position de l'axe vertical du minotaure
+            int minNumber = 1;
+            Minotaur simple = new Minotaur(); //Instancie un minautor 
+
+            //Dépendant de la grandeur du labyrinthe il y a plus de minotaures
+            if (labyrinthClose.Length > 350)
+            {
+                minNumber = 4;
+            }
+            if (labyrinthClose.Length > 850)
+            {
+                minNumber = 6;
+            }
+            if (labyrinthClose.Length > 1250)
             {
                 minNumber = 8;
             }
-            for ( int i=0; i < minNumber; i++)
+
+            //Affiche le nombre de minotaure
+            for (int i = 0; i < minNumber; i++)
             {
                 do
                 {
-                    minX = rnd.Next(0, labyrinthClose.GetLength(0));
-                    minY = rnd.Next(0, labyrinthClose.GetLength(1));
+                    minX = rnd.Next(0, labyrinthClose.GetLength(0));//Position aléatoire de l'axe horizontal du minotaure
+                    minY = rnd.Next(0, labyrinthClose.GetLength(1));//Position aléatoire de l'axe vertical du minotaure
+                    //Tant que la position n'est pas dans le labyrinthe et n'est pas sur les 3 première ou 3 dernière ligne du labyrinthe
+                } while (labyrinthClose[minX, minY] == 0 || minY == 1 || minY == 2 || minY == 3 || minY == labyrinthClose.GetLength(1)-1 || minY == labyrinthClose.GetLength(1)-2 || minY == labyrinthClose.GetLength(1)-3);
 
-                } while (labyrinthClose[minX, minY] == 0 || minY == 1 || minY == 2);
-           
                 SetCursorPosition(minX * 2 + leftPos, topPos + minY);
                 WriteLine("██");
-                Minautore min = new Minautore(minX, minY, labyrinthClose, leftPos, topPos);
-                _minautore.Add(min);
+                simple = new Minotaur(minX, minY, labyrinthClose, leftPos, topPos);
+                //Ajout du minotaure dans une liste
+                _minotaur.Add(simple);
 
             }
-            Minautore simple = new Minautore(minX, minY, labyrinthClose, leftPos, topPos);
+
             do
+            {
+                //Si une touche est utilisée
+                if (KeyAvailable)
                 {
-                    if (KeyAvailable)
+
+                    ckyKeyPress = ReadKey(); // Connaître la réponse du joueur.
+
+                    //Si la touche est gauche 
+                    if (ckyKeyPress.Key == ConsoleKey.LeftArrow && labyrinthClose[playerX - 1, playerY] > 0)
                     {
+                        //déplace le joueur à gauche
+                        passed[playerX, playerY] = passedOn;
+                        playerX--;
 
-                        ckyKeyPress = ReadKey(); // Connaître la réponse du joueur.
-
-                        if (ckyKeyPress.Key == ConsoleKey.LeftArrow && labyrinthClose[playerX - 1, playerY] > 0)
-                        {
-
-                            passed[playerX, playerY] = passedOn;
-                            playerX--;
-
-                        }
-                        else if (ckyKeyPress.Key == ConsoleKey.RightArrow && labyrinthClose[playerX + 1, playerY] > 0)
-                        {
-
-                            passed[playerX, playerY] = passedOn;
-                            playerX++;
-
-                        }
-                        else if (ckyKeyPress.Key == ConsoleKey.UpArrow && labyrinthClose[playerX, playerY - 1] > 0)
-                        {
-
-                            passed[playerX, playerY] = passedOn;
-                            playerY--;
-
-                        }
-                        else if (ckyKeyPress.Key == ConsoleKey.DownArrow && labyrinthClose[playerX, playerY + 1] > 0)
-                        {
-
-                            passed[playerX, playerY] = passedOn;
-                            playerY++;
-
-                        }
-
-                        if (!passed[playerX, playerY])
-                        {
-                            passedOn = true;
-                            SetCursorPosition(playerX * 2 + leftPos, playerY + topPos);
-                            ForegroundColor = ConsoleColor.Green;
-                            WriteLine("██");
-                            ResetColor();
-
-                        }
-                        else
-                        {
-                            SetCursorPosition(playerX * 2 + leftPos, playerY + topPos);
-                            ForegroundColor = ConsoleColor.Magenta;
-                            WriteLine("██");
-                            ResetColor();
-                            passedOn = false;
-                            passed[playerX, playerY] = passedOn;
-                        }
                     }
-
-                    if (playerX == labyrinthClose.GetLength(0) - 2 && playerY == labyrinthClose.GetLength(1) - 2)
+                    //Si la touche est droite 
+                    else if (ckyKeyPress.Key == ConsoleKey.RightArrow && labyrinthClose[playerX + 1, playerY] > 0)
                     {
+                        //déplace le joueur à droite
+                        passed[playerX, playerY] = passedOn;
+                        playerX++;
+
+                    }
+                    //Si la touche est en haut 
+                    else if (ckyKeyPress.Key == ConsoleKey.UpArrow && labyrinthClose[playerX, playerY - 1] > 0)
+                    {
+                        //déplace le joueur en haut
+                        passed[playerX, playerY] = passedOn;
+                        playerY--;
+
+                    }
+                    //Si la touche est en bas 
+                    else if (ckyKeyPress.Key == ConsoleKey.DownArrow && labyrinthClose[playerX, playerY + 1] > 0)
+                    {
+                        //déplace le joueur en bas 
+                        passed[playerX, playerY] = passedOn;
+                        playerY++;
+
+                    }
+                    //Si le joueur n'est pas encore passé sur la case, la case devient vert
+                    if (!passed[playerX, playerY])
+                    {
+                        passedOn = true;
                         SetCursorPosition(playerX * 2 + leftPos, playerY + topPos);
                         ForegroundColor = ConsoleColor.Green;
                         WriteLine("██");
                         ResetColor();
-                        win = true;
-                        simple.Stop();
+
                     }
-                for (int a = 0; a < _minautore.Count; a++)
+                    else
+                    //Sinon la case change de couleur
+                    {
+                        SetCursorPosition(playerX * 2 + leftPos, playerY + topPos);
+                        ForegroundColor = ConsoleColor.Magenta;
+                        WriteLine("██");
+                        ResetColor();
+                        passedOn = false;
+                        passed[playerX, playerY] = passedOn;
+                    }
+                }
+                //Si le joueur est à la fin du labyrinthe
+                if (playerX == labyrinthClose.GetLength(0) - 2 && playerY == labyrinthClose.GetLength(1) - 2)
+                {
+                    SetCursorPosition(playerX * 2 + leftPos, playerY + topPos);
+                    ForegroundColor = ConsoleColor.Green;
+                    WriteLine("██");
+                    ResetColor();
+                    win = true;
+                    //Arrêt du déplacement du minotaure
+                    foreach (Minotaur x in _minotaur)
+                    {
+                        x.Stop();
+                    }
+                }
+                for (int a = 0; a < _minotaur.Count; a++)
                 {
 
-
-                    if (simple.PosXMin / 2 == playerX && simple.MinY == playerY && !review ||(_minautore[a].PosXMin / 2 == playerX && _minautore[a].MinY == playerY) )
+                    //Si un minotaures touche le joueur
+                    if (simple.PosXMin / 2 == playerX && simple.MinY == playerY  || (_minotaur[a].PosXMin / 2 == playerX && _minotaur[a].MinY == playerY))
                     {
-                        simple.Stop();
-                        foreach (Minautore x in _minautore)
+                        //Arrêt du déplacement du minotaure
+                        foreach (Minotaur x in _minotaur)
                         {
                             x.Stop();
                         }
 
-                        _minautore[a].Stop();
-                        review = true;
+                        //Vide la liste des minotaures
+                        _minotaur.Clear();
                         Clear();
+                        //Valeur entre 0 et 9
                         int damaged = rnd.Next(0, 10);
 
                         SetWindowSize(150, 30);
@@ -200,7 +250,8 @@ namespace Labyrinthe_Complex
 
 
                         SetCursorPosition(3, 28);
-                        WriteLine("Le combat commence");
+                        WriteLine("Le combat commence attendez");
+                        //Si la valeur aléatoire est plus petite que 2 le joueur gagne le combat
                         if (damaged <= 2)
                         {
                             Thread.Sleep(3000);
@@ -209,12 +260,14 @@ namespace Labyrinthe_Complex
                             Thread.Sleep(3000);
                             Clear();
 
+
+                            //Affiche le labyrinthe de nouveau et affiche le déplacement du joueur
                             for (sbyte i = 0; i < labyrinthClose.GetLength(0); i++)
                             {
 
                                 for (sbyte j = 0; j < labyrinthClose.GetLength(1); j++)
                                 {
-                                    //Affiche le chemin créer aléatoirement dans le labyrinthe si la valeur est de 1
+                                    //Affiche le labyrinthe de nouveau
                                     if (labyrinthClose[i, j] >= 1)
                                     {
                                         SetCursorPosition(i * 2 + leftPos, j + topPos);
@@ -230,6 +283,7 @@ namespace Labyrinthe_Complex
                                         WriteLine("██");
                                         ResetColor();
                                     }
+                                    //Affiche le déplacement du joueur
                                     if (passed[i, j] == passedOn)
                                     {
                                         SetCursorPosition(i * 2 + leftPos, j + topPos);
@@ -245,25 +299,38 @@ namespace Labyrinthe_Complex
                             SetCursorPosition((labyrinthIni.GetLength(0)) * 2, labyrinthIni.GetLength(1));
                             WriteLine("██");
                             ResetColor();
+                           
 
                         }
+                        //Sinon le joueur perd 
                         else
                         {
+                            //Arrêt du déplacement du minotaure
+                            foreach (Minotaur x in _minotaur)
+                            {
+                                x.Stop();
+                            }
+                            //Vide la liste des minotaures
+                            _minotaur.Clear();
                             win = true;
                             Thread.Sleep(3000);
                             SetCursorPosition(3, 29);
                             WriteLine("Vous avez perdu contre le minautore");
                             Thread.Sleep(3000);
                             Clear();
-                            SetCursorPosition(WindowWidth / 2, WindowHeight / 2);
+                            SetCursorPosition(WindowWidth / 2-9, WindowHeight / 2);
                             WriteLine("Game Over");
+                            SetCursorPosition(WindowWidth / 2 - 23, WindowHeight / 2+1);
+                            WriteLine("Appuyez sur une touche pour continuer");
+                           
                         }
                     }
                 }
+                //Tant que le joueur n'a pas gagné ou perdu
+            } while (!win);
+           
 
-                } while (!win);
-
-                ReadKey();
+            ReadKey();
 
 
         }
@@ -342,93 +409,7 @@ namespace Labyrinthe_Complex
                                 }
                             }
                         }
-                        //for (int a = 0; a < distance; a++)
-                        //{
-
-
-                        //    for (sbyte b = 0; b < reso.GetLength(0); b++)
-                        //    {
-
-                        //        for (sbyte c = 0; c < reso.GetLength(1); c++)
-                        //        {
-                        //            if (reso[b, c] == a)
-                        //            {
-                        //                ForegroundColor = ConsoleColor.Green;
-                        //                SetCursorPosition(b * 3 + leftPos + 20, c + topPos);
-                        //                WriteLine(reso[b, c]);
-
-
-                        //            }
-                        //        }
-                        //    }
-                        //}
-
-                        //    if (j > 1)
-                        //{
-                        //    if (labyrinthClose[i, j - 1] > 0 && reso[i, j - 1]==0)
-                        //    {
-                        //        reso[i, j - 1] = distance;
-                        //        dist = true;
-                        //    }
-                        //}
-                        //if (j < reso.GetLength(1) - 1)
-                        //{
-                        //    if (labyrinthClose[i, j + 1] > 0 && reso[i, j + 1] == 0)
-                        //    {
-                        //        reso[i, j + 1] = distance;
-                        //        dist = true;
-                        //    }
-                        //}
-                        //if (i > 1)
-                        //{
-                        //    if (labyrinthClose[i - 1, j] > 0 && reso[i - 1, j] ==0)
-                        //    {
-                        //        reso[i - 1, j] = distance;
-                        //        dist = true;
-                        //    }
-                        //}
-                        //if (i < reso.GetLength(0) - 1 && reso[i + 1, j] == 0)
-                        //{
-                        //    if (labyrinthClose[i + 1, j] > 0 /*&& reso[i + 1, j] == distance - 1*/)
-                        //    {
-                        //        reso[i + 1, j] = distance;
-                        //        dist = true;
-                        //    }
-                        //}
-                        //if (j > 1)
-                        //{
-                        //    if (labyrinthClose[i, j - 1] > 0 && reso[i, j - 1] == distance - 1)
-                        //    {
-                        //        reso[i, j - 1] = distance;
-                        //        dist = true;
-                        //    }
-                        //}
-                        //if (j < reso.GetLength(1) - 1)
-                        //{
-                        //    if (labyrinthClose[i, j + 1] > 0 && reso[i, j + 1] == distance - 1)
-                        //    {
-                        //        reso[i, j + 1] = distance;
-                        //        dist = true;
-                        //    }
-                        //}
-                        //if (i > 1)
-                        //{
-                        //    if (labyrinthClose[i - 1, j] > 0 && reso[i - 1, j] == distance - 1)
-                        //    {
-                        //        reso[i - 1, j] = distance;
-                        //        dist = true;
-                        //    }
-                        //}
-                        //if (i < reso.GetLength(0) - 1)
-                        //{
-                        //    if (labyrinthClose[i + 1, j] > 0 && reso[i + 1, j] == distance - 1)
-                        //    {
-                        //        reso[i + 1, j] = distance;
-                        //        dist = true;
-                        //    }
-                        //}
-
-
+                       
                         //Si dist est vrai (Si le programme est rentré dans un if précédent)
                         if (dist)
                         {
@@ -458,8 +439,11 @@ namespace Labyrinthe_Complex
 
                 }
             }
+           
             ReadKey();
-
+            ForegroundColor = ConsoleColor.Green;
+            SetCursorPosition(0, WindowHeight - 3);
+            WriteLine("Appuyez sur une touche pour continuer");
             int x = 1;
             int y = 1;
             //Dessine le premier caractère du labyrinthe en vert
@@ -480,9 +464,6 @@ namespace Labyrinthe_Complex
                 WriteLine("██");
                 ResetColor();
 
-                ///Problème (ne revenait pas en arrière) donc affihcage de valeur sur le problème
-                //SetCursorPosition(0, 0);
-                //WriteLine(reso[x, y]);
 
                 //Si la position Nord est plus petit que le Sud,Ouest,Est, descendre le caractère de réponse
                 if (reso[x, y - 1] <= reso[x, y + 1] && reso[x, y - 1] <= reso[x - 1, y] && reso[x, y - 1] <= reso[x + 1, y])
@@ -572,7 +553,7 @@ namespace Labyrinthe_Complex
                 }
             }
 
-
+           
 
 
             ///////Choisir une cordonné au hasard dans le tableau et assemblé 2 murs entre eux
@@ -746,8 +727,11 @@ namespace Labyrinthe_Complex
 
 
             } while (wallOpened != labyrinthClose.Length); //Tant que tout le tableau n'est pas égale à 0 ou une seule valeur de mur recommence
-
+            WriteLine("Appuyez sur une touche pour continuer");
             ReadKey();
+            ForegroundColor = ConsoleColor.Cyan;
+            SetCursorPosition(0, WindowHeight - 3);
+            WriteLine("Appuyez sur une touche pour continuer");
             //Parcours tout le tableau
             for (sbyte i = 0; i < labyrinthClose.GetLength(0); i++)
             {
@@ -765,6 +749,8 @@ namespace Labyrinthe_Complex
                     }
                 }
             }
+
+
         }
 
     }
