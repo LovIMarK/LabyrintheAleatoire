@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
-using static System.Console;
+﻿//Author            : Mark Lovink
+//Date              : 14.06.2022
+//Company           : Etml, Lausanne
+//Description       : Classe instancie le menu du jeu
 
 namespace Labyrinthe_Complex
 {
@@ -14,8 +11,7 @@ namespace Labyrinthe_Complex
         static void Main(string[] args)
         {
             Menu start =new Menu();
-
-            start.StartGameSettings();
+            start.StartGameSettings();//Affiche le menu
         }
         
           
