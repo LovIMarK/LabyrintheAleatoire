@@ -21,7 +21,7 @@ namespace Labyrinthe_Complex
         public void StartGameSettings()
         {
             Clear();
-            SetWindowSize(80, 30);//Taille de la console
+            SetWindowSize(90, 30);//Taille de la console
             CursorVisible = false; // Curseur invisible
             int topPos = 16;//Position de départ par rapport au haut de la console
             int startLeftPos = 4;//Position de départ par rapport à la gauche de la console
@@ -54,12 +54,12 @@ namespace Labyrinthe_Complex
                 {
                     Write("Longeur du labyrinthe");
                     ForegroundColor = ConsoleColor.Red;
-                    Write(" (chiffre impair grand que 4 plus petit que 80) : ");
+                    Write(" (chiffre impair plus grand que 4 plus petit que 106) : ");
                     ResetColor();
                     userLabWidth = int.Parse(ReadLine());
                     Write("Hauteur du labyrinthe");
                     ForegroundColor = ConsoleColor.Red;
-                    Write(" (chiffre impair grand que 8 plus petit que 58) : ");
+                    Write(" (chiffre impair plus grand que 8 plus petit que 58) : ");
                     ResetColor();
                     userLabHeigth = int.Parse(ReadLine());
                 }
@@ -70,7 +70,7 @@ namespace Labyrinthe_Complex
                  
                 }
                 //Tant que les valeurs ne sont pas les bonnes
-            } while (userLabWidth > 80 || userLabHeigth > 58 || userLabWidth % 2 != 1 || userLabHeigth % 2 != 1 || userLabHeigth < 8 || userLabWidth < 4);
+            } while (userLabWidth > 106 || userLabHeigth > 58 || userLabWidth % 2 != 1 || userLabHeigth % 2 != 1 || userLabHeigth < 8 || userLabWidth < 4);
 
             //Affiche les options
             SetCursorPosition(1, topPos);
@@ -89,7 +89,7 @@ namespace Labyrinthe_Complex
             int[,] labyrinthIni = new int[userLabWidth, userLabHeigth]; // Tableau à 2 dimensions du labyrinthe initial
             int[,] labyrinthClose = new int[userLabWidth, userLabHeigth]; // Tableau à 2 dimensions du labyrinthe avec un parcours aléatoirement construit
             bool[,] passed = new bool[userLabWidth, userLabHeigth];// // Tableau à 2 dimensions du labyrinthe avec le parcours du joueur
-            int[,] reso = new int[userLabWidth, userLabWidth]; // Tableau à 2 dimensions du labyrinthe avec la solution du parcours le plus court
+            int[,] reso = new int[userLabWidth, userLabHeigth]; // Tableau à 2 dimensions du labyrinthe avec la solution du parcours le plus court
 
 
 

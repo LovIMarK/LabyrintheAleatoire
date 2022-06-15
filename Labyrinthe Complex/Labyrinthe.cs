@@ -357,7 +357,7 @@ namespace Labyrinthe_Complex
 
                     for (int j = labyrinthClose.GetLength(1) - 1; j > 0; j--)
                     {
-                        //Que des if pour véréfier les 4 possibilitées
+                        //Que des if pour vérifier les 4 possibilitées
                         //Si la valeur du tableau est plus grande que 0 (Si la recherche du tableau vaut un chemin ou pas)
                         if (labyrinthClose[i, j] > 0)
                         {
@@ -367,8 +367,9 @@ namespace Labyrinthe_Complex
                                 //Si la valeur sur laquelle la recherche s'effectue n'a pas encore été assigné
                                 if (reso[i, j] == 0)
                                 {
-                                    //On donne à cette case une distance de plus que celle précedent
+                                    //On donne la valeur de la case prcécédente à une variable +1
                                     distance = reso[i, j - 1] + 1;
+                                    //On donne à cette case une distance de plus que celle précedent
                                     reso[i, j] = distance;
                                     //Valeur bool est vrai
                                     dist = true;
@@ -380,8 +381,9 @@ namespace Labyrinthe_Complex
                                 //Si la valeur sur laquelle la recherche s'effectue n'a pas encore été assigné
                                 if (reso[i, j] == 0)
                                 {
-                                    //On donne à cette case une distance de plus que celle précedent
+                                    //On donne la valeur de la case prcécédente à une variable +1
                                     distance = reso[i, j + 1] + 1;
+                                    //On donne à cette case une distance de plus que celle précedent
                                     reso[i, j] = distance;
                                     //Valeur bool est vrai
                                     dist = true;
@@ -394,8 +396,9 @@ namespace Labyrinthe_Complex
                                 //Si la valeur sur laquelle la recherche s'effectue n'a pas encore été assigné
                                 if (reso[i, j] == 0)
                                 {
-                                    //On donne à cette case une distance de plus que celle précedent
+                                    //On donne la valeur de la case prcécédente à une variable +1
                                     distance = reso[i - 1, j] + 1;
+                                    //On donne à cette case une distance de plus que celle précedent
                                     reso[i, j] = distance;
                                     //Valeur bool est vrai
                                     dist = true;
@@ -407,8 +410,9 @@ namespace Labyrinthe_Complex
                                 //Si la valeur sur laquelle la recherche s'effectue n'a pas encore été assigné
                                 if (reso[i, j] == 0)
                                 {
-                                    //On donne à cette case une distance de plus que celle précedent
+                                    //On donne la valeur de la case prcécédente à une variable +1
                                     distance = reso[i + 1, j] + 1;
+                                    //On donne à cette case une distance de plus que celle précedent
                                     reso[i, j] = distance;
                                     //Valeur bool est vrai
                                     dist = true;
@@ -429,7 +433,21 @@ namespace Labyrinthe_Complex
                 }
             } while (reso[1, 1] != distance - 1); //Tant que la valeur du début du labyrinthe n'est pas égale à la distance recommence
 
+            ////////////Montre le chemin de reso (valeur +1) 
+            //for (sbyte i = 0; i < reso.GetLength(0); i++)
+            //{
+            //    for (sbyte j = 0; j < reso.GetLength(1); j++)
+            //    {
+            //        //Changer les 0 en une valeur quelqconque pour parer les problème dans la suite 
+            //        if (reso[i, j] > 0)
+            //        {
+            //            SetCursorPosition(i * 2 + leftPos, j + topPos);
+            //            WriteLine(reso[i, j]);
+            //        }
 
+            //    }
+            //}
+            //////////////
 
 
             //Parcours tout le tableau
@@ -441,8 +459,9 @@ namespace Labyrinthe_Complex
                     if (reso[i, j] == 0)
                     {
                         reso[i, j] = reso.Length;
+               
                     }
-
+            
                 }
             }
            
@@ -513,7 +532,7 @@ namespace Labyrinthe_Complex
 
         public void Show()
         {
-            SetWindowSize((labyrinthIni.GetLength(0) + 5) * 2, labyrinthIni.GetLength(1) + 5); // Grandeur de la console
+            SetWindowSize((labyrinthIni.GetLength(0) +15 ) * 2, labyrinthIni.GetLength(1) + 5); // Grandeur de la console
             Clear();
             //Parcours le tableau à 2 dimensions contenant le labyrinthe de base
             for (sbyte i = 0; i < labyrinthIni.GetLength(0); i++)
@@ -733,6 +752,7 @@ namespace Labyrinthe_Complex
 
 
             } while (wallOpened != labyrinthClose.Length); //Tant que tout le tableau n'est pas égale à 0 ou une seule valeur de mur recommence
+            SetCursorPosition(0, WindowHeight - 3);
             WriteLine("Appuyez sur une touche pour continuer");
             ReadKey();
             ForegroundColor = ConsoleColor.Cyan;
