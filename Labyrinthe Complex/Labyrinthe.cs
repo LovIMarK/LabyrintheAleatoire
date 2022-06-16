@@ -208,7 +208,7 @@ namespace Labyrinthe_Complex
                     Clear();
                     SetCursorPosition(WindowWidth / 2 - 9, WindowHeight / 2);
                     WriteLine("Bien joué");
-                    SetCursorPosition(WindowWidth / 2 - 23, WindowHeight / 2 + 1);
+                    SetCursorPosition(WindowWidth / 2-9 , WindowHeight / 2 + 1);
                     WriteLine("Appuyez sur une touche pour continuer");
 
                 }

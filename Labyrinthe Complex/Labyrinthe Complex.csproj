@@ -45,7 +45,7 @@
   <ItemGroup>
     <Compile Include="Labyrinthe.cs" />
     <Compile Include="Menu.cs" />
-    <Compile Include="Minautore.cs" />
+    <Compile Include="Minotaure.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
