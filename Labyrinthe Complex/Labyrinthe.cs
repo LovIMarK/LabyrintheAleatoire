@@ -96,10 +96,18 @@ namespace Labyrinthe_Complex
             ResetColor();
             int minX = 0;//Position de l'axe horizontal du minotaure
             int minY = 0;//Position de l'axe vertical du minotaure
-            int minNumber = 1;
+            int minNumber = 0;
             Minotaur simple = new Minotaur(); //Instancie un minotaur 
 
             //Dépendant de la grandeur du labyrinthe il y a plus de minotaures
+            if (labyrinthClose.Length > 120)
+            {
+                minNumber = 1;
+            }
+            if (labyrinthClose.Length > 250)
+            {
+                minNumber = 2;
+            }
             if (labyrinthClose.Length > 350)
             {
                 minNumber = 4;
