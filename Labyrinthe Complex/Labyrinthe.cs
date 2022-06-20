@@ -85,7 +85,7 @@ namespace Labyrinthe_Complex
         public void Play()
         {
 
-            SetCursorPosition(WindowWidth / 2 - 9, 0);
+            SetCursorPosition(WindowWidth / 2 - 19, 0);
             WriteLine("                                        ");
             SetCursorPosition(playerX + leftPos - 1, playerY + topPos);
             ForegroundColor = ConsoleColor.Green;
@@ -206,9 +206,9 @@ namespace Labyrinthe_Complex
                         x.Stop();
                     }
                     Clear();
-                    SetCursorPosition(WindowWidth / 2 - 9, WindowHeight / 2);
+                    SetCursorPosition(WindowWidth / 2 - 19, WindowHeight / 2);
                     WriteLine("Bien joué");
-                    SetCursorPosition(WindowWidth / 2-9 , WindowHeight / 2 + 1);
+                    SetCursorPosition(WindowWidth / 2 - 19, WindowHeight / 2 + 1);
                     WriteLine("Appuyez sur une touche pour continuer");
 
                 }
@@ -324,7 +324,7 @@ namespace Labyrinthe_Complex
                             WriteLine("Vous avez perdu contre le minotaure");
                             Thread.Sleep(3000);
                             Clear();
-                            SetCursorPosition(WindowWidth / 2-9, WindowHeight / 2);
+                            SetCursorPosition(WindowWidth / 2- 19, WindowHeight / 2);
                             WriteLine("Game Over");
                             SetCursorPosition(WindowWidth / 2 - 23, WindowHeight / 2+1);
                             WriteLine("Appuyez sur une touche pour continuer");
@@ -467,7 +467,7 @@ namespace Labyrinthe_Complex
            
             ReadKey();
             ForegroundColor = ConsoleColor.Green;
-              SetCursorPosition(WindowWidth / 2 - 9, 0);
+              SetCursorPosition(WindowWidth / 2 - 19, 0);
             WriteLine("Appuyez sur une touche pour continuer");
             int x = 1;
             int y = 1;
@@ -578,7 +578,7 @@ namespace Labyrinthe_Complex
                 }
             }
 
-            SetCursorPosition(WindowWidth / 2 - 9,0);
+            SetCursorPosition(WindowWidth / 2 - 19, 0);
             WriteLine("Chargement en cours");
 
 
@@ -753,7 +753,7 @@ namespace Labyrinthe_Complex
 
 
             } while (wallOpened != labyrinthClose.Length); //Tant que tout le tableau n'est pas égale à 0 ou une seule valeur de mur recommence
-            SetCursorPosition(WindowWidth / 2 - 9, 0);
+            SetCursorPosition(WindowWidth / 2 - 19, 0);
             WriteLine("Appuyez sur une touche pour continuer");
             ReadKey();
 
@@ -776,7 +776,7 @@ namespace Labyrinthe_Complex
                 }
             }
             ForegroundColor = ConsoleColor.Cyan;
-              SetCursorPosition(WindowWidth / 2 - 9, 0);
+            SetCursorPosition(WindowWidth / 2 - 19, 0);
             WriteLine("Appuyez sur une touche pour continuer");
 
 
