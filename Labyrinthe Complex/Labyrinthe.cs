@@ -273,7 +273,7 @@ namespace Labyrinthe_Complex
                             WriteLine("Vous avez gagné");
                             Thread.Sleep(3000);
                             Clear();
-
+                            SetWindowSize((labyrinthIni.GetLength(0) + 15) * 2, labyrinthIni.GetLength(1) + 5); // Grandeur de la console
 
                             //Affiche le labyrinthe de nouveau et affiche le déplacement du joueur
                             for (sbyte i = 0; i < labyrinthClose.GetLength(0); i++)
@@ -316,7 +316,7 @@ namespace Labyrinthe_Complex
                            
 
                         }
-                        //Sinon le joueur perd 
+                        //Sinon le joueur perds
                         else
                         {
                             //Arrêt du déplacement du minotaure
