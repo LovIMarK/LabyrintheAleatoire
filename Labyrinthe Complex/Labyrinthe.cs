@@ -85,7 +85,7 @@ namespace Labyrinthe_Complex
         public void Play()
         {
 
-            SetCursorPosition(0, WindowHeight - 3);
+            SetCursorPosition(WindowWidth / 2 - 9, 0);
             WriteLine("                                        ");
             SetCursorPosition(playerX + leftPos - 1, playerY + topPos);
             ForegroundColor = ConsoleColor.Green;
@@ -467,7 +467,7 @@ namespace Labyrinthe_Complex
            
             ReadKey();
             ForegroundColor = ConsoleColor.Green;
-            SetCursorPosition(0, WindowHeight - 3);
+              SetCursorPosition(WindowWidth / 2 - 9, 0);
             WriteLine("Appuyez sur une touche pour continuer");
             int x = 1;
             int y = 1;
@@ -578,7 +578,8 @@ namespace Labyrinthe_Complex
                 }
             }
 
-           
+            SetCursorPosition(WindowWidth / 2 - 9,0);
+            WriteLine("Chargement en cours");
 
 
             ///////Choisir une cordonné au hasard dans le tableau et assemblé 2 murs entre eux
@@ -752,12 +753,11 @@ namespace Labyrinthe_Complex
 
 
             } while (wallOpened != labyrinthClose.Length); //Tant que tout le tableau n'est pas égale à 0 ou une seule valeur de mur recommence
-            SetCursorPosition(0, WindowHeight - 3);
+            SetCursorPosition(WindowWidth / 2 - 9, 0);
             WriteLine("Appuyez sur une touche pour continuer");
             ReadKey();
-            ForegroundColor = ConsoleColor.Cyan;
-            SetCursorPosition(0, WindowHeight - 3);
-            WriteLine("Appuyez sur une touche pour continuer");
+
+           
             //Parcours tout le tableau
             for (sbyte i = 0; i < labyrinthClose.GetLength(0); i++)
             {
@@ -775,6 +775,9 @@ namespace Labyrinthe_Complex
                     }
                 }
             }
+            ForegroundColor = ConsoleColor.Cyan;
+              SetCursorPosition(WindowWidth / 2 - 9, 0);
+            WriteLine("Appuyez sur une touche pour continuer");
 
 
         }
